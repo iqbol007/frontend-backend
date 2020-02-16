@@ -1,0 +1,32 @@
+
+@api  =http://localhost:9999
+##get all posts
+GET {{api}}/posts
+
+
+### add post
+POST {{api}}/posts
+Content-Type: application/json
+
+
+{
+    "id": 0,
+    "name":"name",
+    "content": "first POST",
+    "likes":0
+} 
+
+### update posts
+POST {{api}}/posts
+Content-Type: application/json
+
+{
+    "id": 2,
+    "name": "name",
+    "content": "Ed Post",
+    "likes":0
+} 
+
+###delete posts
+DELETE {{api}}/posts/2
+Content-Type: application/json
