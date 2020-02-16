@@ -10,6 +10,9 @@ let posts = [
   { id: nextPostId++, name: "hanry", content: "judge", likes: 12 },
   { id: nextPostId++, name: "potter", content: "pilot", likes: 46 }
 ];
+function findPostIndexById(id) {
+  return posts .findIndex(o=>o.id===id);
+}
 // this is get requaire >>>>>>>>>
 server.get("/posts", (req, res) => {
   res.send(posts);
@@ -27,7 +30,7 @@ server.post("/posts", (req, res) => {
     res.send(posts);
     return;
   }
-  const index=posts.findIndex(o=>o.id===body.id);
+  const index=findPostIndexById(body.id);
   if (index===-1) {
     res.status(404).send(erorforid);
     return
@@ -40,7 +43,7 @@ server.delete("/posts/:id", (req, res) => {
   const id =Number(req.params.id);
   // const { id } = req.params;
   // const parseId = parseInt(id, 10);
-  const index=posts.findIndex(o=>o.id===id);
+  const index=findPostIndexById(id);
   if (index===-1) {
     res.status(404).send(erorforid);
     return
@@ -48,5 +51,26 @@ server.delete("/posts/:id", (req, res) => {
  posts.splice(index,1);
   res.send(posts);
 });
-
+///////////////like++
+server.post('/posts/:id/likes',(req,res)=>{
+  const id = Number(req.params.id);
+  const index=findPostIndexById(id);
+  if (index===-1) {
+    res.status(404).send(erorforid);
+    return;
+  }
+  posts[index].likes++;
+  res.send(posts);
+});
+////////////////like--
+server.delete('/posts/:id/likes',(req,res)=>{
+  const id = Number(req.params.id);
+  const index=findPostIndexById(id);
+  if (index===-1) {
+    res.status(404).send(erorforid);
+    return;
+  }
+  posts[index].likes--;
+  res.send(posts);
+});
 server.listen(process.env.PORT || 9999);

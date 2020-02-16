@@ -30,3 +30,9 @@ Content-Type: application/json
 ###delete posts
 DELETE {{api}}/posts/2
 Content-Type: application/json
+
+####like++
+POST {{api}}/posts/2/likes
+
+####like--
+DELETE  {{api}}/posts/1/likes
