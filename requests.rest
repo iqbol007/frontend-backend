@@ -1,5 +1,5 @@
 
-@api = https://iqbol-express-api.herokuapp.com
+@api = https://localhost:9999
 ##get all posts
 GET {{api}}/posts
 #########
@@ -12,7 +12,8 @@ Content-Type: application/json
 {
     "id": 0,
     "content": "first POST",
-    "likes":0
+    "likes":0,
+    "isLiked":false
 } 
 
 ### update posts
@@ -22,7 +23,8 @@ Content-Type: application/json
 {
     "id": 2,
     "content": "Ed Post",
-    "likes":0
+    "likes":0,
+    "isLiked":false
 } 
 
 ###delete posts
