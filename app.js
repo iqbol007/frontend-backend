@@ -48,29 +48,7 @@ server.delete("/posts/:id", (req, res) => {
   res.send(posts);
 });
  
-// server.post("/posts/:id/likes", (req, res) => {
-//   const id = Number(req.params.id);
-//   const index = findPostIndexById(id);
-//   if (index === -1) {
-//     res.status(404).send(erorforid);
-//     return;
-//   }
-//   posts = posts.map(o => (o.id !== id ? o : { ...o, likes: o.likes + 1 }));
-
-//   res.send(posts);
-// });
  
-// server.delete("/posts/:id/likes", (req, res) => {
-//   const id = Number(req.params.id);
-//   const index = findPostIndexById(id);
-//   if (index === -1) {
-//     res.status(404).send(erorforid);
-//     return;
-//   }
-//   posts = posts.map(o => (o.id !== id ? o : { ...o, likes: o.likes - 1 }));
-//   res.send(posts);
-// });
-
 server.post("/posts/:id/likes", (req, res) => {
     const id = Number(req.params.id);
   const index = findPostIndexById(id);
@@ -82,8 +60,17 @@ server.post("/posts/:id/likes", (req, res) => {
      {if ( o.id !== id) {
       return o;
      }
-     o.isLiked=!o.isLiked;
-     return { ...o, likes:o.isLiked? o.likes - 1:o.likes+1 };
+     if (!o.isLiked) {
+      o.isLiked=!o.isLiked;
+      return { ...o, likes: o.likes+1 };
+     
+     }
+     else{
+        o.isLiked=!o.isLiked;
+        return { ...o, likes: o.likes+1 };
+     }
+     
+   
     
     });
       res.send(posts);
