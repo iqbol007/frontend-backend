@@ -1,5 +1,5 @@
 
-@api = https://iqbol-express-api.herokuapp.com
+@api = https://localhost:9999
 ##get all posts
 GET {{api}}/posts
 #########
