@@ -15,7 +15,7 @@ let purchases = [
 
 server.get('/api/purchases', (req, res) => {
     setTimeout(() => {
-        if (Math.random() > 0.5) {
+        if (Math.random() > 0.2) {
             res.send(purchases);
         } else {
             res.statusCode = 500;
@@ -36,7 +36,7 @@ server.get('/api/purchases/:id', (req, res) => {
 
 server.post('/api/purchases', (req, res) => {
     setTimeout(() => {
-        if (Math.random() > 0.5) {
+        if (Math.random() > 0.2) {
             const purchase = req.body;
 
             if (purchase.id === 0) {
