@@ -1,73 +1,93 @@
-const express = require("express");
-const cors = require("cors");
-const erorforid = { error: "id.not_found" };
+const express = require('express');
+const cors = require('cors');
+
 const server = express();
 server.use(cors());
 server.use(express.json());
 
-let nextPostId = 1;
-let posts = [
-  { id: nextPostId++, content: "ole", likes: 12, isLiked: false },
-  { id: nextPostId++, content: "kole", likes: 46, isLiked: false }
+let nextId = 1;
+let purchases = [
+    { id: nextId++, price: 1232, category: 'auto',description:'purchases 1'  },
+    { id: nextId++, price: 2432, category: 'moto',description:'purchases 2'  },
+    { id: nextId++, price: 6833, category: 'sport',description:'purchases 3'  },
+    { id: nextId++, price: 8544, category: 'tech',description:'purchases 4' },
 ];
-function findPostIndexById(id) {
-  return posts.findIndex(o => o.id === id);
-}
 
-server.get("/posts", (req, res) => {
-  res.send(posts);
+server.get('/api/purchases', (req, res) => {
+    setTimeout(() => {
+        if (Math.random() > 0.5) {
+            res.send(purchases);
+        } else {
+            res.statusCode = 500;
+            res.send();
+        }
+    }, 1000);
 });
 
-server.post("/posts", (req, res) => {
-  const body = req.body;
-  const id = body.id;
-  if (id === 0) {
-    posts = [
-      ...posts,
-      {
-        id: nextPostId++,
-        content: body.content,
-        likes: 0
-      }
-    ];
-    res.send(posts);
-    return;
-  }
-  posts = posts.map(o => (o.id !== id ? o : { ...o, content: body.content }));
-  res.send(posts);
+server.get('/api/purchases/:id', (req, res) => {
+    setTimeout(() => {
+ 
+           const id = parseInt(req.params.id, 10);
+        const  description = purchases.filter(o => o.id === id).map(o=>o.description);
+            res.send(description);
+            return;
+    }, 1000);
 });
 
-server.delete("/posts/:id", (req, res) => {
-  const id = Number(req.params.id);
-  const index = findPostIndexById(id);
-  if (index === -1) {
-    res.status(404).send(erorforid);
-    return;
-  }
-  posts = posts.filter(o => o.id != id);
-  res.send(posts);
+server.post('/api/purchases', (req, res) => {
+    setTimeout(() => {
+        if (Math.random() > 0.5) {
+            const purchase = req.body;
+
+            if (purchase.id === 0) {
+                purchases = [{...purchase, id: nextId++}, ...purchases];
+                res.send();
+                return;
+            }
+
+            if (purchases.find(o => purchase.id === o.id) === undefined) {
+                res.statusCode = 404;
+                res.send();
+                return;
+            }
+
+            purchases = purchases.map(o => purchase.id === o.id ? purchase : o);
+            res.send();
+
+        } else {
+            res.statusCode = 500;
+            res.send();
+        }
+    }, 5000);
 });
 
-server.post("/posts/:id/likes", (req, res) => {
-  const id = Number(req.params.id);
-  const index = findPostIndexById(id);
-  if (index === -1) {
-    res.status(404).send(erorforid);
-    return;
-  }
-  posts = posts.map(o => {
-    if (o.id !== id) {
-      return o;
-    }
-    if (!o.isLiked) {
-      o.isLiked = !o.isLiked;
-      return { ...o, likes: o.likes - 1 };
-    } else {
-      o.isLiked = !o.isLiked;
-      return { ...o, likes: o.likes + 1 };
-    }
-  });
-  res.send(posts);
+server.delete('/api/purchases/:id', (req, res) => {
+    setTimeout(() => {
+        if (Math.random() > 0.5) {
+            const id = parseInt(req.params.id, 10);
+
+            if (isNaN(id)) {
+                res.statusCode = 400;
+                res.send();
+                return;
+            }
+
+            const purchaseToRemove = purchases.find(o => o.id === id);
+            if (purchaseToRemove === undefined) {
+                res.statusCode = 404;
+                res.send();
+            }
+
+            purchases = purchases.filter(o => o.id !== id); // truthy -> !0, !'', !false, !undefined, !null
+            res.statusCode = 204; // No content
+            res.send();
+        } else {
+            res.statusCode = 500;
+            res.send();
+        }
+    }, 1000);
+
+
 });
 
-server.listen(process.env.PORT || 9999);
+server.listen(9999);
