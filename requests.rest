@@ -1,0 +1,35 @@
+
+@api = http://localhost:9999
+##get all posts
+GET {{api}}/api/purchases
+#########
+
+### add post
+POST {{api}}/api/purchases
+Content-Type: application/json
+
+
+{
+    "id": 0,
+     "description":"",
+	"category":"",
+	"price":0
+    
+} 
+
+### update posts
+POST {{api}}/api/purchases
+Content-Type: application/json
+
+{
+    "id": 2,
+     "description":"",
+	"category":"",
+	"price":0
+    
+} 
+
+###delete posts
+DELETE {{api}}/api/purchases/1
+Content-Type: application/json
+ 
