@@ -78,8 +78,8 @@ server.delete('/api/purchases/:id', (req, res) => {
                 res.send();
             }
 
-            purchases = purchases.filter(o => o.id !== id); // truthy -> !0, !'', !false, !undefined, !null
-            res.statusCode = 204; // No content
+            purchases = purchases.filter(o => o.id !== id);  
+            res.statusCode = 204;  
             res.send();
         } else {
             res.statusCode = 500;
